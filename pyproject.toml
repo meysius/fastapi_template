@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["Meysam Feghhi <me.feghhi@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.1"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.31"}
+alembic = "^1.13.2"
+pydantic-settings = "^2.4.0"
+asyncpg = "^0.29.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.2"
+
+[tool.poetry.group.dev.dependencies]
+ptpython = "^3.0.29"
+mypy = "^1.11.1"
+coloredlogs = "^15.0.1"
+black = "^24.8.0"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+start.cmd = "python app/main.py"
+console.cmd = "python app/console.py"
+db-create.script = "app.database:create_database"
+db-drop.script = "app.database:drop_database"
+db-migrate.cmd = "alembic upgrade head"
+mypy.cmd = "mypy app"
+test.cmd = "pytest"
+
+[tool.mypy]
+strict = true
